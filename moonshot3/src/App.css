@@ -1,0 +1,41 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+html,
+body {
+  /* padding: 5px; */
+}
+.loadingContainer {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ant-select-selector {
+  border-radius: 20px !important;
+}
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root {
+  border-radius: 20px !important;
+}
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+  padding: 5px 10px !important;
+}
+.graphContainer {
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.filterBarContainer {
+  /* padding: 10px 5px 0px 5px; */
+  padding-top: 10px;
+  /* margin-top: 10px; */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+}
