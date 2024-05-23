@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { REACT_APP_BACKEND_URL } from "../../env";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -19,8 +18,7 @@ import { DateField } from "@mui/x-date-pickers/DateField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import "moment/locale/en-gb"; // or your preferred locale
-import { LogoutOutlined, SearchOutlined } from "@mui/icons-material";
-import styles from "../style/FilterBar.module.css";
+import { LogoutOutlined } from "@mui/icons-material";
 
 ChartJS.register(
   CategoryScale,
@@ -83,11 +81,12 @@ const Dashboard = () => {
         const response = await axios.get(`https://moonshot-6jhr.onrender.com/dashboard`, {
           params: { age, gender, start, end },
         });
-        console.log(response.data);
-        setGraphData(response.data.graphData);
+        console.log(response?.data);
+        setGraphData(response?.data?.graphData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching dashboard:", error);
+        navigate("/")
         setLoading(false);
       }
     };
@@ -121,7 +120,7 @@ const Dashboard = () => {
         const entry = data.find((item) => item.day === day);
         return entry ? entry[category] : 0;
       }),
-      // backgroundColor: getRandomColor(),
+      backgroundColor: getRandomColor(),
     }));
 
     return {
@@ -138,7 +137,14 @@ const Dashboard = () => {
     }
     return color;
   };
-
+const logoutUser =()=>{
+  localStorage.removeItem("token");
+  Cookies.remove("ageFilter");
+  Cookies.remove("genderFilter");
+  Cookies.remove("startDate");
+  Cookies.remove("endDate");
+  navigate("/");
+}
   if (loading) {
     return (
       <div className="loadingContainer">
@@ -208,11 +214,11 @@ const Dashboard = () => {
         >
           Reset
         </Button>
-        <T title="search">
-          <Button
-            shape="circle"
-            icon={<LogoutOutlined style={{ height: "20px" }} />}
-          />
+        <T title="logout">
+          <Button className="logoutBtn" onClick={logoutUser}>
+            {localStorage.getItem("username")}
+            <LogoutOutlined style={{ height: "20px", marginLeft:'5px' }} />
+          </Button>
         </T>
       </div>
       <Bar

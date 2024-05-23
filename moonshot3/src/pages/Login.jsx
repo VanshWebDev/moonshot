@@ -3,8 +3,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { REACT_APP_BACKEND_URL } from "../../env";
-import {Navigate, useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -12,20 +11,28 @@ const Login = () => {
 
   const onFinishLogin = async (values) => {
     try {
-      const response = await axios.post(`https://moonshot-6jhr.onrender.com/auth/login`, values);
+      const response = await axios.post(
+        `https://moonshot-6jhr.onrender.com/auth/login`,
+        values
+      );
       toast.success("Login successful!");
       localStorage.setItem("token", response.data.token);
       console.log(response);
+      localStorage.setItem("username", response.data.username);
       navigate("/dashboard");
     } catch (error) {
-      toast.error(error.response.data.message);
+      console.log(error)
+      toast.error(error?.response?.data?.message);
       console.error(error);
     }
   };
 
   const onFinishSignup = async (values) => {
     try {
-      const response = await axios.post(`https://moonshot-6jhr.onrender.com/auth/signup`, values);
+      const response = await axios.post(
+        `https://moonshot-6jhr.onrender.com/auth/signup`,
+        values
+      );
       toast.success(response.data.message);
       console.log(response);
     } catch (error) {
@@ -35,8 +42,17 @@ const Login = () => {
   };
 
   return (
-    <div style={{height:'100vh',display:'flex',justifyContent:'center',alignItems:'center'}}>
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
       <Toaster />
+      <h2>Moonshot analytics</h2>
       <Form
         style={{ width: "300px" }}
         name={isLogin ? "login_form" : "signup_form"}
@@ -85,10 +101,12 @@ const Login = () => {
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
+                  if (!value || getFieldValue("password") === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject(new Error('The two passwords do not match!'));
+                  return Promise.reject(
+                    new Error("The two passwords do not match!")
+                  );
                 },
               }),
             ]}
@@ -103,8 +121,8 @@ const Login = () => {
         <Form.Item>
           <Button type="primary" htmlType="submit" className="form-button">
             {isLogin ? "Log in" : "Sign up"}
-          </Button> &nbsp;
-           Or {" "} &nbsp;
+          </Button>{" "}
+          &nbsp; Or &nbsp;
           <a onClick={() => setIsLogin(!isLogin)}>
             {isLogin ? " register now!" : "login now!"}
           </a>
