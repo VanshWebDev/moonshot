@@ -16,7 +16,7 @@ mongoose
 
 //middlewares
 app.use(cors({
-  origin:[process.env.FRONTEND_URL, "https://moonshoot.netlify.app/"],
+  origin:process.env.FRONTEND_URL,
   credentials:true
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
